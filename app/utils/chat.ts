@@ -419,6 +419,7 @@ export function streamWithThink(
   let isInThinkingMode = false;
   let lastIsThinking = false;
   let lastIsThinkingTagged = false; //between <think> and </think> tags
+  let firstThinkEmpty = false;
 
   // animate response to make it looks smooth
   function animateResponseText() {
@@ -627,8 +628,16 @@ export function streamWithThink(
               if (remainText.length > 0) {
                 remainText += "\n";
               }
-              remainText += "> " + chunk.content.trimStart();
+              if (chunk.content.length === 0) {
+                firstThinkEmpty = true;
+              }
+              remainText += "> " + chunk.content;
             } else {
+              // clear initial '\n' for think part
+              if (firstThinkEmpty) {
+                chunk.content = chunk.content.trimStart();
+                firstThinkEmpty = false;
+              }
               // Handle newlines in thinking content
               if (chunk.content.includes("\n\n")) {
                 const lines = chunk.content.split("\n\n");
