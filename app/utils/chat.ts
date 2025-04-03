@@ -627,7 +627,7 @@ export function streamWithThink(
               if (remainText.length > 0) {
                 remainText += "\n";
               }
-              remainText += "> " + chunk.content..trimStart();
+              remainText += "> " + chunk.content.trimStart();
             } else {
               // Handle newlines in thinking content
               if (chunk.content.includes("\n\n")) {
